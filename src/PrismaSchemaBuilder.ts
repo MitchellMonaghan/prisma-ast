@@ -131,9 +131,7 @@ export class ConcretePrismaSchemaBuilder {
     ) as schema.Model|undefined;
 
     if(model) {
-      console.log(fieldName)
       const field = model.properties.find(p => p.type === 'field' && p.name === fieldName)
-      console.log(field)
       if(field) {
         const index = model.properties.indexOf(field)
         model.properties.splice(index, 1);
