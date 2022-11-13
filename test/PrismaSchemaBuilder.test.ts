@@ -105,6 +105,33 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('removes an field', () => {
+    const builder = createPrismaSchemaBuilder(`
+      datasource db {
+        url = env("DATABASE_URL")
+      }
+
+      model Project {
+        name String
+        description String
+      }
+    `);
+
+    builder.dropField('Project', 'description');
+
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      datasource db {
+        url = env(\\"DATABASE_URL\\")
+      }
+
+      model Project {
+        name String
+      }
+      "
+    `);
+  });
+
   it('adds an enum', () => {
     const builder = createPrismaSchemaBuilder();
     builder

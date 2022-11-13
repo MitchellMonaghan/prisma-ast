@@ -125,6 +125,23 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
+  dropField(modelName: string, fieldName:string): this {
+    const model = this.schema.list.find(
+      block => 'name' in block && block.name === modelName && block.type === 'model'
+    ) as schema.Model|undefined;
+
+    if(model) {
+      console.log(fieldName)
+      const field = model.properties.find(p => p.type === 'field' && p.name === fieldName)
+      console.log(field)
+      if(field) {
+        const index = model.properties.indexOf(field)
+        model.properties.splice(index, 1);
+      }
+    }
+    return this;
+  }
+
   /** Sets the datasource for the schema. */
   datasource(provider: string, url: string | { env: string }): this {
     const datasource: schema.Datasource = {
